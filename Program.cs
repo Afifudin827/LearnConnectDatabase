@@ -192,11 +192,11 @@ class Program
         }*/
 
         /*Get Data By ID*/
-        Console.WriteLine("ID           : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).departements_id);
-        Console.WriteLine("Title        : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).start_dates);
-        Console.WriteLine("Min Salary   : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).end_dates);
-        Console.WriteLine("Max Salary   : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).jobs_id);
-        Console.WriteLine("Max Salary   : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).departements_id);
+        /*Console.WriteLine("Employee ID: " + jobHistories.GetById(20, "2021-01-04").empolyees_id);
+        Console.WriteLine("Start Date   : " + jobHistories.GetById(20, "2021-01-04").start_dates);
+        Console.WriteLine("End Date     : " + jobHistories.GetById(20, "2021-01-04").end_dates);
+        Console.WriteLine("Job ID       : " + jobHistories.GetById(20, "2021-01-04").jobs_id);
+        Console.WriteLine("Departemen ID: " + jobHistories.GetById(20, "2021-01-04").departements_id);*/
 
         //Inset Data To Jobs
         /*var insertResult = jobs.Insert(11, "IT Conditional", 5600000, 7000000);

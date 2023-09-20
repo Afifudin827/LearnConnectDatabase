@@ -58,13 +58,13 @@ class JobHistories : ConnectionDatabase
     }
 
     // GET BY ID: Region
-    public JobHistories GetById(int id, DateTime startDates)
+    public JobHistories GetById(int id, string startDates)
     {
         JobHistories jobHistories = new JobHistories();
         using var connection = new SqlConnection(dbString);
         using var command = new SqlCommand();
         command.Connection = connection;
-        command.CommandText = "SELECT * FROM tbl_job_history where employees_id = @PId and start_dates = @startDates";
+        command.CommandText = "SELECT * FROM tbl_jobs_history where employees_id = @PId and start_dates = '"+startDates+"';";
         try
         {
             command.Parameters.Add(setParameter(id, "PId"));
