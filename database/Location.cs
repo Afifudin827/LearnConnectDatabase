@@ -1,5 +1,4 @@
-﻿using System.Data.SqlClient;
-
+﻿
 namespace BasicConnectivity.database;
 internal class Location : ConnectionDatabase
 {
@@ -10,10 +9,14 @@ internal class Location : ConnectionDatabase
     public int country_id { get; set; }
     public string? state_province { get; set; }
 
+    public override string ToString()
+    {
+        return $"{id} - {street_address} - {city} - {postal_code} - {country_id} - {state_province}";
+    }
     public List<Location> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var location = new List<Location>();
 
@@ -58,8 +61,8 @@ internal class Location : ConnectionDatabase
     public Location GetById(int id)
     {
         Location location = new Location();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_location where id = @PId";
         try
@@ -98,8 +101,8 @@ internal class Location : ConnectionDatabase
     // INSERT: Region
     public string Insert(int id, string streetAddress, string postalCode, string city, string stateProvince, int countryID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_location VALUES (@id,@streetAddress,@postalCode, @city, @stateProvince, @countryID);";
@@ -141,8 +144,8 @@ internal class Location : ConnectionDatabase
     // UPDATE: Region
     public string Update(int id, string streetAddress, string postalCode, string city, string stateProvince, int countryID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_location set street_address = @streetAddress, postal_code= @postalCode, city = @city, state_province = @StateProvince, country_id = @countryID where id = @id;";
@@ -184,8 +187,8 @@ internal class Location : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_location where id = @id;";

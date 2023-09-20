@@ -1,6 +1,4 @@
-﻿using System.Data.SqlClient;
-
-namespace BasicConnectivity.database;
+﻿namespace BasicConnectivity.database;
 class Departement : ConnectionDatabase
 {
     public int id { get; set; }
@@ -8,10 +6,15 @@ class Departement : ConnectionDatabase
     public int manager_id { get; set; }
     public int location_id { get; set; }
 
+    public override string ToString()
+    {
+        return $"{id} - {name} - {manager_id} - {location_id}";
+    }
+
     public List<Departement> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var departements = new List<Departement>();
 
@@ -59,8 +62,8 @@ class Departement : ConnectionDatabase
     public Departement GetById(int id)
     {
         Departement departement = new Departement();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_departements where id = @PId";
         try
@@ -101,8 +104,8 @@ class Departement : ConnectionDatabase
     // INSERT: Region
     public string Insert(int id, string name, int departemenID, int locationID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_departements VALUES (@id,@name,@departemenID, @locationID);";
@@ -143,8 +146,8 @@ class Departement : ConnectionDatabase
     // UPDATE: Region
     public string Update(int id, string name, int departemenID, int locationID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_departements set name = @name, departemen_id= @departemenID , location_id= @locationID  where id = @id;";
@@ -185,8 +188,8 @@ class Departement : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_departements where id = @id;";

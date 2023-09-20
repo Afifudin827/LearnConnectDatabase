@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿
 
 namespace BasicConnectivity.database;
 class Country : ConnectionDatabase
@@ -7,10 +7,14 @@ class Country : ConnectionDatabase
     public string? name { get; set; }
     public int region_id { get; set; }
 
+    public override string ToString()
+    {
+        return $"{id} - {name} - {region_id}";
+    }
     public List<Country> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var country = new List<Country>();
 
@@ -52,8 +56,8 @@ class Country : ConnectionDatabase
     public Country GetById(int id)
     {
         Country country = new Country();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_country where id = @PId";
@@ -92,8 +96,8 @@ class Country : ConnectionDatabase
     // INSERT: Region
     public string Insert(int id, string name, int regionID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_country VALUES (@id,@name,@regionId);";
@@ -132,8 +136,8 @@ class Country : ConnectionDatabase
     // UPDATE: Region
     public string Update(int id, string name, string regionId)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_country set name = @name, region_id= @regionId  where id = @id;";
@@ -172,8 +176,8 @@ class Country : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_country where id = @id;";

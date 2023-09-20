@@ -7,12 +7,16 @@ class Region : ConnectionDatabase
     public int id { get; set; }
     public string? name { get; set; }
 
+    public override string ToString()
+    {
+        return $"{id} - {name}";
+    }
 
     // GET ALL: Region
     public List<Region> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var regions = new List<Region>();
 
@@ -53,8 +57,8 @@ class Region : ConnectionDatabase
     public Region GetById(int id)
     {
         Region region = new Region();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_regions where id = @PId";
@@ -93,8 +97,8 @@ class Region : ConnectionDatabase
     // INSERT: Region
     public string Insert(int id, string name)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_regions VALUES (@id,@name);";
@@ -132,8 +136,8 @@ class Region : ConnectionDatabase
     // UPDATE: Region
     public string Update(int id, string name)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_regions set name = @name where id = @id;";
@@ -180,8 +184,8 @@ class Region : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_regions where id = @id;";

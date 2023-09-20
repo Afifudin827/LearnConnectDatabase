@@ -19,4 +19,14 @@ class ConnectionDatabase
         pName.SqlDbType = SqlDbType.VarChar;
         return pName;
     }
+
+    protected static SqlConnection GetConnection()
+    {
+        return new SqlConnection(dbString);
+    }
+
+    protected static SqlCommand GetCommand()
+    {
+        return new SqlCommand();
+    }
 }

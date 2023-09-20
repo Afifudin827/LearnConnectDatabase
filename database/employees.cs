@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿
+using System.Xml.Linq;
 
 namespace BasicConnectivity.database;
 class Employees : ConnectionDatabase
@@ -8,17 +9,22 @@ class Employees : ConnectionDatabase
     public string? last_name { get; set; }
     public string? email { get; set; }
     public string? phone_number { get; set; }
-    public string? hire_date { get; set; }
+    public DateTime hire_date { get; set; }
     public int jobs_id { get; set; }
     public int salary { get; set; }
-    public int commission_pct { get; set; }
+    public double commission_pct { get; set; }
     public int manager_id { get; set; }
     public int departemen_id { get; set; }
 
+    public override string ToString()
+    {
+        return $"{id} - {first_name} - {last_name} - {email} - {phone_number} - {hire_date} - {jobs_id} - {salary} - {commission_pct} - {manager_id} - {departemen_id}";
+    }
+
     public List<Employees> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var employees = new List<Employees>();
 
@@ -41,13 +47,13 @@ class Employees : ConnectionDatabase
                         first_name = reader.GetString(1),
                         last_name = reader.GetString(2),
                         email = reader.GetString(3),
-                        phone_number = reader.GetString(3),
-                        hire_date = reader.GetString(3),
-                        jobs_id = reader.GetInt32(3),
-                        salary = reader.GetInt32(3),
-                        commission_pct = reader.GetInt32(3),
-                        manager_id = reader.GetInt32(3),
-                        departemen_id = reader.GetInt32(3),
+                        phone_number = reader.GetString(4),
+                        hire_date = reader.GetDateTime(5),
+                        jobs_id = reader.GetInt32(6),
+                        salary = reader.GetInt32(7),
+                        commission_pct = reader.GetDouble(8),
+                        manager_id = reader.GetInt32(9),
+                        departemen_id = reader.GetInt32(10),
                     });
                 }
                 reader.Close();
@@ -72,8 +78,8 @@ class Employees : ConnectionDatabase
     public Employees GetById(int id)
     {
         Employees employees = new Employees();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_employees where id = @PId";
         try
@@ -92,7 +98,7 @@ class Employees : ConnectionDatabase
                     employees.last_name = reader.GetString(2);
                     employees.email = reader.GetString(3);
                     employees.phone_number = reader.GetString(4);
-                    employees.hire_date = reader.GetString(5);
+                    employees.hire_date = reader.GetDateTime(5);
                     employees.jobs_id = reader.GetInt32(6);
                     employees.salary = reader.GetInt32(7);
                     employees.commission_pct = reader.GetInt32(8);
@@ -121,8 +127,8 @@ class Employees : ConnectionDatabase
     // INSERT: Region
     public string Insert(int id, string firstName, string lastName, string email, string phoneNumber, string hireDate, int jobID, int salary, int commissionPCT, int managerID, int departemenID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_employees VALUES (@id,@firstName,@lastName, @email, @phoneNumber, @hireDate, @jobID, @salary, @commissionPCT, @managerID, @departemenID);";
@@ -170,8 +176,8 @@ class Employees : ConnectionDatabase
     // UPDATE: Region
     public string Update(int id, string firstName, string lastName, string email, string phoneNumber, string hireDate, int jobID, int salary, int commissionPCT, int managerID, int departemenID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_employees set fisrt_name = @firstName,last_name = @lastName, email = @email, phone_number = @phoneNumber, hire_date = @hireDate, job_id = @jobID, salary = @salary, commission_pct = @commissionPCT, manager_id = @managerID, departements_id = @departemenID  where id = @id;";
@@ -219,8 +225,8 @@ class Employees : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_employees where id = @id;";

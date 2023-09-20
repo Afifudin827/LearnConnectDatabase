@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿
+using System.Xml.Linq;
 
 namespace BasicConnectivity.database;
 class JobHistories : ConnectionDatabase
@@ -10,10 +10,15 @@ class JobHistories : ConnectionDatabase
     public DateTime start_dates { get; set; }
     public DateTime end_dates { get; set; }
 
+    public override string ToString()
+    {
+        return $"{empolyees_id} - {jobs_id} - {departements_id} - {start_dates} - {end_dates}";
+    }
+
     public List<JobHistories> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var jobHistory = new List<JobHistories>();
 
@@ -61,8 +66,8 @@ class JobHistories : ConnectionDatabase
     public JobHistories GetById(int id, string startDates)
     {
         JobHistories jobHistories = new JobHistories();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_jobs_history where employees_id = @PId and start_dates = '"+startDates+"';";
         try
@@ -105,8 +110,8 @@ class JobHistories : ConnectionDatabase
     // INSERT: Region
     public string Insert(int employeesID, string startDates, string endDates, int jobsID, int departementsID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_departements VALUES (@employeesID , @startDates, @endDates ,@jobID, @departementsID);";
@@ -148,8 +153,8 @@ class JobHistories : ConnectionDatabase
     // UPDATE: Region
     public string Update(int employeesID, string startDates, string endDates, int jobsID, int departementsID)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_departements set end_dates = @endDates, jobs_id= @jobID, departemens_id= @departemenID where employees_id = @employeesID and start_dates = @startDates;";
@@ -191,8 +196,8 @@ class JobHistories : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id, string startDates)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_departements where employees_id = @id and start_dates = @startDates;";

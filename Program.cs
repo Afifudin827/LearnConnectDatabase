@@ -1,4 +1,5 @@
 ﻿using BasicConnectivity.database;
+using BasicConnectivity.Menu;
 
 namespace BasicConnectivity;
 
@@ -6,6 +7,23 @@ class Program
 {
     public static void Main()
     {
+
+        var choice = true;
+        while (choice)
+        {
+            Console.WriteLine("1. List all regions");
+            Console.WriteLine("2. List all countries");
+            Console.WriteLine("3. List all locations");
+            Console.WriteLine("4. List all departements");
+            Console.WriteLine("5. List all job");
+            Console.WriteLine("6. List all job histories");
+            Console.WriteLine("7. List all employees");
+            Console.WriteLine("8. Exit");
+            Console.Write("Enter your choice: ");
+            var input = Console.ReadLine();
+            choice = Menu(input);
+        }
+
         /*Manage Data Region*/
         //Region region = new Region();
         //show All Data Region
@@ -180,7 +198,7 @@ class Program
 
 
         /*Manage data jobs History*/
-        JobHistories jobHistories = new JobHistories();
+        //JobHistories jobHistories = new JobHistories();
         /*Show All Data*/
         /*foreach (var item in jobHistories.GetAll())
         {
@@ -225,5 +243,60 @@ class Program
         }*/
     }
 
+    public static bool Menu(string input)
+    {
+        switch (input)
+        {
+            case "1":
+                Console.Clear();
+                var region = new Region();
+                var regions = region.GetAll();
+                GeneralMenu.List(regions, "regions");
+                break;
+            case "2":
+                Console.Clear();
+                var country = new Country();
+                var countries = country.GetAll();
+                GeneralMenu.List(countries, "countries");
+                break;
+            case "3":
+                Console.Clear();
+                var location = new Location();
+                var locations = location.GetAll();
+                GeneralMenu.List(locations, "locations");
+                break;
+            case "4":
+                Console.Clear();
+                var departement = new Departement();
+                var departements = departement.GetAll();
+                GeneralMenu.List(departements, "departemen");
+                break;
+            case "5":
+                Console.Clear();
+                var job = new Jobs();
+                var jobs = job.GetAll();
+                GeneralMenu.List(jobs, "job");
+                break;
+            case "6":
+                Console.Clear();
+                var jobHistory = new JobHistories();
+                var jobHistories = jobHistory.GetAll();
+                GeneralMenu.List(jobHistories, "job history");
+                break;
+            case "7":
+                Console.Clear();
+                var employee = new Employees();
+                var employees = employee.GetAll();
+                GeneralMenu.List(employees, "employees");
+                break;
+            case "8":
+                return false;
+            default:
+                Console.WriteLine();
+                Console.WriteLine("Invalid choice");
+                break;
+        }
+        return true;
+    }
 
 }

@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using System.Xml.Linq;
 
 namespace BasicConnectivity.database;
 class Jobs : ConnectionDatabase
@@ -8,10 +8,14 @@ class Jobs : ConnectionDatabase
     public int min_salary { get; set; }
     public int max_salary { get; set; }
 
+    public override string ToString()
+    {
+        return $"{id} - {title} - {min_salary} - {max_salary}";
+    }
     public List<Jobs> GetAll()
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         var job = new List<Jobs>();
 
@@ -54,8 +58,8 @@ class Jobs : ConnectionDatabase
     public Jobs GetById(int id)
     {
         Jobs job = new Jobs();
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
         Jobs jobs = new Jobs();
         command.Connection = connection;
         command.CommandText = "SELECT * FROM tbl_jobs where id = @PId";
@@ -93,8 +97,8 @@ class Jobs : ConnectionDatabase
     // INSERT: Region
     public string Insert(int id, string title, int minSalary, int maxSalary)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "INSERT INTO tbl_jobs VALUES (@id,@title,@minSalary, @maxSalary);";
@@ -134,8 +138,8 @@ class Jobs : ConnectionDatabase
     // UPDATE: Region
     public string Update(int id, string title, int minSalary, int maxSalary)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "UPDATE tbl_jobs set name = @title, min_salary= @minSalary, max_salary = @maxSalary  where id = @id;";
@@ -175,8 +179,8 @@ class Jobs : ConnectionDatabase
     // DELETE: Region
     public string Delete(int id)
     {
-        using var connection = new SqlConnection(dbString);
-        using var command = new SqlCommand();
+        using var connection = GetConnection();
+        using var command = GetCommand();
 
         command.Connection = connection;
         command.CommandText = "DELETE FROM tbl_jobs where id = @id;";
