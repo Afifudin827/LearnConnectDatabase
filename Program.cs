@@ -1,251 +1,229 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using System.Xml.Linq;
+﻿using BasicConnectivity.database;
 
 namespace BasicConnectivity;
 
 class Program
 {
-    static string dataBase = "Database=db_hr;Data Source=AFIFWORKS\\MSSQLSERVER01;Integrated Security=True;Connect Timeout=30;";
-    static SqlConnection conn;
     public static void Main()
     {
-        //InsertRegion(6, "Nort Asia");
-        //GetRegionById(1);
-        //UpdateRegion(1, "Asians");
-        //DeleteRegion(6);
+        /*Manage Data Region*/
+        //Region region = new Region();
+        //show All Data Region
+        /*foreach (var item in region.GetAll())
+        {
+            Console.WriteLine("ID   : " + item.id);
+            Console.WriteLine("Name : " + item.name);
+        }*/
+
+        //Get Data Region By ID
+        /*Console.WriteLine("ID   : " + region.GetById(4).id);
+        Console.WriteLine("Name : " + region.GetById(4).name);*/
+
+        //Insert Data Region
+        /*var insertResult = region.Insert(6, "Antartika");
+        int.TryParse(insertResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Insert Success");
+        }
+        else
+        {
+            Console.WriteLine("Insert Failed");
+            Console.WriteLine(insertResult);
+        }*/
+
+        //Delete Data Region
+        /*var deleteResult = region.Delete(6);
+        int.TryParse(deleteResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Delete Success");
+        }
+        else
+        {
+            Console.WriteLine("Delete Failed");
+            Console.WriteLine(deleteResult);
+        }*/
+
+
+        /*Manage data Country*/
+        //Country country = new Country();
+        /*Show All Data*/
+        /*foreach (var item in country.GetAll())
+        {
+            Console.WriteLine("ID   : " + item.id);
+            Console.WriteLine("Name : " + item.name);
+            Console.WriteLine("Name : " + item.region_id);
+        }*/
+
+        /*Get Data By ID*/
+        /*Console.WriteLine("ID   : " + country.GetById(10).id);
+        Console.WriteLine("Name : " + country.GetById(10).name);*/
+
+        /*Inset Data To Country*/
+        /*var insertResult = country.Insert(11, "China", 2);
+        int.TryParse(insertResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Insert Success");
+        }
+        else
+        {
+            Console.WriteLine("Insert Failed");
+            Console.WriteLine(insertResult);
+        }*/
+
+        /*Delete data from Country*/
+        /*var deleteResult = country.Delete(11);
+        int.TryParse(deleteResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Delete Success");
+        }
+        else
+        {
+            Console.WriteLine("Delete Failed");
+            Console.WriteLine(deleteResult);
+        }*/
+
+
+        /*Manage data location*/
+        //Location location = new Location();
+        /*Show All Data*/
+        /*foreach (var item in location.GetAll())
+        {
+            Console.WriteLine("ID               : " + item.id);
+            Console.WriteLine("Street Address   : " + item.street_address);
+            Console.WriteLine("Postal Code      : " + item.postal_code);
+            Console.WriteLine("City             : " + item.city);
+            Console.WriteLine("State Province   : " + item.state_province);
+            Console.WriteLine("Country ID       : " + item.country_id);
+        }*/
+
+        /*Get Data By ID*/
+        /*Console.WriteLine("ID               : " + location.GetById(4).id);
+        Console.WriteLine("Street Address   : " + location.GetById(4).street_address);
+        Console.WriteLine("Postal Code      : " + location.GetById(4).postal_code);
+        Console.WriteLine("City             : " + location.GetById(4).city);
+        Console.WriteLine("State Province   : " + location.GetById(4).state_province);
+        Console.WriteLine("Country ID       : " + location.GetById(4).country_id);*/
+
+        /*Inset Data To Location*/
+        /*var insertResult = location.Insert(11, "Jl. Imam Bonjol", "3513131", "Pemalang", "Jawa Tengah", 1);
+        int.TryParse(insertResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Insert Success");
+        }
+        else
+        {
+            Console.WriteLine("Insert Failed");
+            Console.WriteLine(insertResult);
+        }*/
+
+        /*Delete data from Country*/
+        /*var deleteResult = location.Delete(11);
+        int.TryParse(deleteResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Delete Success");
+        }
+        else
+        {
+            Console.WriteLine("Delete Failed");
+            Console.WriteLine(deleteResult);
+        }*/
+
+
+        /*Manage data jobs*/
+        //Jobs jobs = new Jobs();
+        /*Show All Data*/
+        /*foreach (var item in jobs.GetAll())
+        {
+            Console.WriteLine("ID           : " + item.id);
+            Console.WriteLine("Title        : " + item.title);
+            Console.WriteLine("Min Salary   : " + item.min_salary);
+            Console.WriteLine("Max Salary   : " + item.max_salary);
+        }*/
+
+        /*Get Data By ID*/
+        /*Console.WriteLine("ID           : " + jobs.GetById(2).id);
+        Console.WriteLine("Title        : " + jobs.GetById(2).title);
+        Console.WriteLine("Min Salary   : " + jobs.GetById(2).min_salary);
+        Console.WriteLine("Max Salary   : " + jobs.GetById(2).max_salary);*/
+
+        /*Inset Data To Jobs*/
+        /*var insertResult = jobs.Insert(11, "IT Conditional", 5600000, 7000000);
+        int.TryParse(insertResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Insert Success");
+        }
+        else
+        {
+            Console.WriteLine("Insert Failed");
+            Console.WriteLine(insertResult);
+        }*/
+
+        /*Delete data from Country*/
+        /*var deleteResult = jobs.Delete(11);
+        int.TryParse(deleteResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Delete Success");
+        }
+        else
+        {
+            Console.WriteLine("Delete Failed");
+            Console.WriteLine(deleteResult);
+        }*/
+
+
+        /*Manage data jobs History*/
+        JobHistories jobHistories = new JobHistories();
+        /*Show All Data*/
+        /*foreach (var item in jobHistories.GetAll())
+        {
+            Console.WriteLine("Employees ID : " + item.empolyees_id);
+            Console.WriteLine("Start Date   : " + item.start_dates);
+            Console.WriteLine("End Date     : " + item.end_dates);
+            Console.WriteLine("Job ID       : " + item.jobs_id);
+            Console.WriteLine("Departemen ID: " + item.departements_id);
+        }*/
+
+        /*Get Data By ID*/
+        Console.WriteLine("ID           : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).departements_id);
+        Console.WriteLine("Title        : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).start_dates);
+        Console.WriteLine("Min Salary   : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).end_dates);
+        Console.WriteLine("Max Salary   : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).jobs_id);
+        Console.WriteLine("Max Salary   : " + jobHistories.GetById(8, Convert.ToDateTime("11/03/2021")).departements_id);
+
+        //Inset Data To Jobs
+        /*var insertResult = jobs.Insert(11, "IT Conditional", 5600000, 7000000);
+        int.TryParse(insertResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Insert Success");
+        }
+        else
+        {
+            Console.WriteLine("Insert Failed");
+            Console.WriteLine(insertResult);
+        }*/
+
+        /*Delete data from Country*/
+        /*var deleteResult = jobs.Delete(11);
+        int.TryParse(deleteResult, out int result);
+        if (result > 0)
+        {
+            Console.WriteLine("Delete Success");
+        }
+        else
+        {
+            Console.WriteLine("Delete Failed");
+            Console.WriteLine(deleteResult);
+        }*/
     }
 
-    // GET ALL: Region
-    public static void GetAllRegions()
-    {
-        using var connection = new SqlConnection(dataBase);
-        using var command = new SqlCommand();
 
-        command.Connection = connection;
-        command.CommandText = "SELECT * FROM regions";
-
-        try
-        {
-            connection.Open();
-
-            using var reader = command.ExecuteReader();
-
-            if (reader.HasRows)
-                while (reader.Read())
-                {
-                    Console.WriteLine("Id: " + reader.GetInt32(0));
-                    Console.WriteLine("Name: " + reader.GetString(1));
-                }
-            else
-                Console.WriteLine("No rows found.");
-
-            reader.Close();
-            connection.Close();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
-
-    // GET BY ID: Region
-    public static void GetRegionById(int id)
-    {
-        using var connection = new SqlConnection(dataBase);
-        using var command = new SqlCommand();
-
-        command.Connection = connection;
-        command.CommandText = "SELECT * FROM tbl_regions where id = @PId";
-        try
-        {
-            var pId = new SqlParameter();
-            pId.ParameterName = "@PId";
-            pId.Value = id;
-            pId.SqlDbType = SqlDbType.VarChar;
-            command.Parameters.Add(pId);
-
-            connection.Open();
-            using var reader = command.ExecuteReader();
-
-            if (reader.HasRows)
-            {
-                Console.WriteLine("Id: " + reader.GetInt32(0));
-                Console.WriteLine("Name: " + reader.GetString(1));
-            }
-            else
-            {
-                Console.WriteLine("No rows found.");
-            }
-
-            reader.Close();
-            connection.Close();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
-
-    // INSERT: Region
-    public static void InsertRegion(int id,string name)
-    {
-        using var connection = new SqlConnection(dataBase);
-        using var command = new SqlCommand();
-
-        command.Connection = connection;
-        command.CommandText = "INSERT INTO tbl_regions VALUES (@id,@name);";
-
-        try
-        {
-            var pId = new SqlParameter();
-            pId.ParameterName = "@id";
-            pId.Value = id;
-            pId.SqlDbType = SqlDbType.VarChar;
-            command.Parameters.Add(pId);
-
-            var pName = new SqlParameter();
-            pName.ParameterName = "@name";
-            pName.Value = name;
-            pName.SqlDbType = SqlDbType.VarChar;
-            command.Parameters.Add(pName);
-
-            connection.Open();
-            using var transaction = connection.BeginTransaction();
-            try
-            {
-                command.Transaction = transaction;
-
-                var result = command.ExecuteNonQuery();
-
-                transaction.Commit();
-                connection.Close();
-
-                switch (result)
-                {
-                    case >= 1:
-                        Console.WriteLine("Insert Success");
-                        break;
-                    default:
-                        Console.WriteLine("Insert Failed");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                Console.WriteLine($"Error Transaction: {ex.Message}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
-
-    // UPDATE: Region
-    public static void UpdateRegion(int id, string name) 
-    {
-        using var connection = new SqlConnection(dataBase);
-        using var command = new SqlCommand();
-
-        command.Connection = connection;
-        command.CommandText = "UPDATE tbl_regions set name = @name where id = @id;";
-
-        try
-        {
-            var pName = new SqlParameter();
-            pName.ParameterName = "@name";
-            pName.Value = name;
-            pName.SqlDbType = SqlDbType.VarChar;
-            command.Parameters.Add(pName);
-
-            var pId = new SqlParameter();
-            pId.ParameterName = "@id";
-            pId.Value = id;
-            pId.SqlDbType = SqlDbType.VarChar;
-            command.Parameters.Add(pId);
-
-            connection.Open();
-            using var transaction = connection.BeginTransaction();
-            try
-            {
-                command.Transaction = transaction;
-
-                var result = command.ExecuteNonQuery();
-
-                transaction.Commit();
-                connection.Close();
-
-                switch (result)
-                {
-                    case >= 1:
-                        Console.WriteLine("Update Success");
-                        break;
-                    default:
-                        Console.WriteLine("Update Failed");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                Console.WriteLine($"Error Transaction: {ex.Message}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
-
-    // DELETE: Region
-    public static void DeleteRegion(int id) 
-    {
-        using var connection = new SqlConnection(dataBase);
-        using var command = new SqlCommand();
-
-        command.Connection = connection;
-        command.CommandText = "DELETE FROM tbl_regions where id = @id;";
-
-        try
-        {
-            var pId = new SqlParameter();
-            pId.ParameterName = "@id";
-            pId.Value = id;
-            pId.SqlDbType = SqlDbType.VarChar;
-            command.Parameters.Add(pId);
-
-            connection.Open();
-            using var transaction = connection.BeginTransaction();
-            try
-            {
-                command.Transaction = transaction;
-
-                var result = command.ExecuteNonQuery();
-
-                transaction.Commit();
-                connection.Close();
-
-                switch (result)
-                {
-                    case >= 1:
-                        Console.WriteLine("Delete Success");
-                        break;
-                    default:
-                        Console.WriteLine("Delete Failed");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                Console.WriteLine($"Error Transaction: {ex.Message}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
 }
