@@ -1,5 +1,6 @@
 ﻿using BasicConnectivity.database;
 using BasicConnectivity.Menu;
+using BasicConnectivity.model;
 
 namespace BasicConnectivity;
 
@@ -18,7 +19,8 @@ class Program
             Console.WriteLine("5. List all job");
             Console.WriteLine("6. List all job histories");
             Console.WriteLine("7. List all employees");
-            Console.WriteLine("8. Exit");
+            Console.WriteLine("8. Employees Detail");
+            Console.WriteLine("10. Exit");
             Console.Write("Enter your choice: ");
             var input = Console.ReadLine();
             choice = Menu(input);
@@ -290,6 +292,14 @@ class Program
                 GeneralMenu.List(employees, "employees");
                 break;
             case "8":
+                Console.Clear();
+                EmployeesDetail();
+                break;
+            case "9":
+                Console.Clear();
+                CountingEmployees();
+                break;
+            case "10":
                 return false;
             default:
                 Console.WriteLine();
@@ -299,4 +309,76 @@ class Program
         return true;
     }
 
+    public static void EmployeesDetail()
+    {
+        var employee = new Employees();
+        var departemen = new Departement();
+        var location = new Location();
+        var region = new Region();
+        var country = new Country();
+
+        var getEmployees = employee.GetAll();
+        var getDepartements = departemen.GetAll();
+        var getLocations = location.GetAll();
+        var getRegions = region.GetAll();
+        var getCountry = country.GetAll();
+
+        var resultEmployeesDetail = getEmployees.Join(
+            getDepartements,
+            e => e.departemen_id,
+            d => d.id,
+            (e, d) => new { e, d }).Join(
+                getLocations,
+                ed => ed.d.location_id,
+                l => l.id,
+                (ed, l) => new { ed, l }).Join(
+                    getCountry,
+                    edl => edl.l.country_id,
+                    c => c.id,
+                    (edl, c) => new { edl, c }).Join(
+                        getRegions,
+                        edlc => edlc.c.region_id,
+                        r => r.id,
+                        (edlc, r) => new EmployeesVM
+                        {
+                            employeeID = edlc.edl.ed.e.id,
+                            fullName = edlc.edl.ed.e.first_name + " " + edlc.edl.ed.e.last_name,
+                            email = edlc.edl.ed.e.email,
+                            phone = edlc.edl.ed.e.phone_number,
+                            salary = edlc.edl.ed.e.salary,
+                            departementName = edlc.edl.ed.d.name,
+                            streetAddress = edlc.edl.l.street_address,
+                            countryName = edlc.c.name,
+                            regionName = r.name
+
+                        }).ToList();
+
+        GeneralMenu.List(resultEmployeesDetail, "Employees Detail");
+
+    }
+
+    public static void CountingEmployees()
+    {
+        var employee = new Employees();
+        var departemen = new Departement();
+
+        var getEmployees = employee.GetAll();
+        var getDepartements = departemen.GetAll();
+
+        var resultEmployeesCount =
+            (from d in getDepartements
+             join e in getEmployees on d.id equals e.departemen_id
+             group e by d.name into g
+             where g.Count() > 3
+             select new EmployeesCountingVM
+             {
+                 departementName = g.Key,
+                 totalEmployees = g.Count(),
+                 minSalary = g.Min(e => e.salary),
+                 maxSalary = g.Max(e => e.salary),
+                 avarageSalary = g.Average(e => e.salary)
+             }).ToList();
+
+        GeneralMenu.List(resultEmployeesCount, "Employees Departement Count");
+    }
 }
