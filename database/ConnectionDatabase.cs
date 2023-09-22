@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BasicConnectivity.database;
-class ConnectionDatabase
+public class ConnectionDatabase
 {
     protected static readonly string dbString = "Database=db_hr;Data Source=AFIFWORKS\\MSSQLSERVER01;Integrated Security=True;Connect Timeout=30;";
 

@@ -1,25 +1,27 @@
 ﻿
-
 namespace BasicConnectivity.database;
-class Country : ConnectionDatabase
+public class Location : ConnectionDatabase
 {
     public int id { get; set; }
-    public string? name { get; set; }
-    public int region_id { get; set; }
+    public string? street_address { get; set; }
+    public string? city { get; set; }
+    public string? postal_code { get; set; }
+    public int country_id { get; set; }
+    public string? state_province { get; set; }
 
     public override string ToString()
     {
-        return $"{id} - {name} - {region_id}";
+        return $"{id} - {street_address} - {city} - {postal_code} - {country_id} - {state_province}";
     }
-    public List<Country> GetAll()
+    public List<Location> GetAll()
     {
         using var connection = GetConnection();
         using var command = GetCommand();
 
-        var country = new List<Country>();
+        var location = new List<Location>();
 
         command.Connection = connection;
-        command.CommandText = "SELECT * FROM tbl_country";
+        command.CommandText = "SELECT * FROM tbl_location";
 
         try
         {
@@ -31,40 +33,41 @@ class Country : ConnectionDatabase
             {
                 while (reader.Read())
                 {
-                    country.Add(new Country
+                    location.Add(new Location
                     {
                         id = reader.GetInt32(0),
-                        name = reader.GetString(1),
-                        region_id = reader.GetInt32(2)
+                        street_address = reader.GetString(1),
+                        postal_code = reader.GetString(2),
+                        city = reader.GetString(3),
+                        state_province = reader.GetString(4),
+                        country_id = reader.GetInt32(5),
                     });
                 }
-                return country;
+                return location;
             }
             else
             {
-                return new List<Country>();
+                return new List<Location>();
             }
 
         }
         catch (Exception)
         {
-            return new List<Country>();
+            return new List<Location>();
         }
     }
 
     // GET BY ID: Region
-    public Country GetById(int id)
+    public Location GetById(int id)
     {
-        Country country = new Country();
+        Location location = new Location();
         using var connection = GetConnection();
         using var command = GetCommand();
-
         command.Connection = connection;
-        command.CommandText = "SELECT * FROM tbl_country where id = @PId";
+        command.CommandText = "SELECT * FROM tbl_location where id = @PId";
         try
         {
             command.Parameters.Add(setParameter(id, "PId"));
-
             connection.Open();
             using var reader = command.ExecuteReader();
 
@@ -72,41 +75,46 @@ class Country : ConnectionDatabase
             {
                 while (reader.Read())
                 {
-                    country.id = reader.GetInt32(0);
-                    country.name = reader.GetString(1);
-                    country.region_id = reader.GetInt32(2);
+
+                    location.id = reader.GetInt32(0);
+                    location.street_address = reader.GetString(1);
+                    location.postal_code = reader.GetString(2);
+                    location.city = reader.GetString(3);
+                    location.state_province = reader.GetString(4);
+                    location.country_id = reader.GetInt32(5);
                 }
-                connection.Close();
-                return country;
+                return location;
+
             }
             else
             {
-                connection.Close();
-                return new Country();
+                return new Location();
             }
-
 
         }
         catch (Exception)
         {
-            return new Country();
+            return new Location();
         }
     }
 
     // INSERT: Region
-    public string Insert(int id, string name, int regionID)
+    public string Insert(Location location)
     {
         using var connection = GetConnection();
         using var command = GetCommand();
 
         command.Connection = connection;
-        command.CommandText = "INSERT INTO tbl_country VALUES (@id,@name,@regionId);";
+        command.CommandText = "INSERT INTO tbl_location VALUES (@id,@streetAddress,@postalCode, @city, @stateProvince, @countryID);";
 
         try
         {
-            command.Parameters.Add(setParameter(id, "id"));
-            command.Parameters.Add(setParameter(name, "name"));
-            command.Parameters.Add(setParameter(regionID, "regionId"));
+            command.Parameters.Add(setParameter(location.id, "id"));
+            command.Parameters.Add(setParameter(location.street_address, "streetAddress"));
+            command.Parameters.Add(setParameter(location.postal_code, "postalCode"));
+            command.Parameters.Add(setParameter(location.city, "city"));
+            command.Parameters.Add(setParameter(location.state_province, "stateProvince"));
+            command.Parameters.Add(setParameter(location.country_id, "countryID"));
 
             connection.Open();
             using var transaction = connection.BeginTransaction();
@@ -134,19 +142,22 @@ class Country : ConnectionDatabase
     }
 
     // UPDATE: Region
-    public string Update(int id, string name, string regionId)
+    public string Update(Location location)
     {
         using var connection = GetConnection();
         using var command = GetCommand();
 
         command.Connection = connection;
-        command.CommandText = "UPDATE tbl_country set name = @name, region_id= @regionId  where id = @id;";
+        command.CommandText = "UPDATE tbl_location set street_address = @streetAddress, postal_code= @postalCode, city = @city, state_province = @StateProvince, country_id = @countryID where id = @id;";
 
         try
         {
-            command.Parameters.Add(setParameter(id, "id"));
-            command.Parameters.Add(setParameter(name, "name"));
-            command.Parameters.Add(setParameter(regionId, "regionId"));
+            command.Parameters.Add(setParameter(location.id, "id"));
+            command.Parameters.Add(setParameter(location.street_address, "streetAddress"));
+            command.Parameters.Add(setParameter(location.postal_code, "postalCode"));
+            command.Parameters.Add(setParameter(location.city, "city"));
+            command.Parameters.Add(setParameter(location.state_province, "stateProvince"));
+            command.Parameters.Add(setParameter(location.country_id, "countryID"));
 
             connection.Open();
             using var transaction = connection.BeginTransaction();
@@ -180,7 +191,7 @@ class Country : ConnectionDatabase
         using var command = GetCommand();
 
         command.Connection = connection;
-        command.CommandText = "DELETE FROM tbl_country where id = @id;";
+        command.CommandText = "DELETE FROM tbl_location where id = @id;";
 
         try
         {

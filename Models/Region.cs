@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 
 namespace BasicConnectivity.database;
-class Region : ConnectionDatabase
+public class Region : ConnectionDatabase
 {
     public int id { get; set; }
     public string? name { get; set; }
@@ -95,7 +95,7 @@ class Region : ConnectionDatabase
     }
 
     // INSERT: Region
-    public string Insert(int id, string name)
+    public string Insert(Region region)
     {
         using var connection = GetConnection();
         using var command = GetCommand();
@@ -105,8 +105,8 @@ class Region : ConnectionDatabase
 
         try
         {
-            command.Parameters.Add(setParameter(id, "id"));
-            command.Parameters.Add(setParameter(name, "name"));
+            command.Parameters.Add(setParameter(region.id, "id"));
+            command.Parameters.Add(setParameter(region.name, "name"));
 
             connection.Open();
             using var transaction = connection.BeginTransaction();
@@ -134,7 +134,7 @@ class Region : ConnectionDatabase
     }
 
     // UPDATE: Region
-    public string Update(int id, string name)
+    public string Update(Region region)
     {
         using var connection = GetConnection();
         using var command = GetCommand();
@@ -146,13 +146,13 @@ class Region : ConnectionDatabase
         {
             var pName = new SqlParameter();
             pName.ParameterName = "@name";
-            pName.Value = name;
+            pName.Value = region.name;
             pName.SqlDbType = SqlDbType.VarChar;
             command.Parameters.Add(pName);
 
             var pId = new SqlParameter();
             pId.ParameterName = "@id";
-            pId.Value = id;
+            pId.Value = region.id;
             pId.SqlDbType = SqlDbType.VarChar;
             command.Parameters.Add(pId);
 
